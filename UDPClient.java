@@ -56,15 +56,17 @@ public class UDPClient implements Runnable {
       try {
         socket.send(packet);
       } catch (IOException e) {
-        System.out.println("Client: IOException!");
+        System.out.println("IOException to senda request on client!");
       }
 
       // Wait for a reply from server
       packet = new DatagramPacket(buf, buf.length);
       try {
         socket.receive(packet);
+      } catch (SocketTimeoutException e) {
+        System.out.println("TimeoutException to receive a reply on client!");
       } catch (IOException e) {
-        System.out.println("IOException!");
+        System.out.println("IOException to receive a reply on client!");
       }
       // Record the received time
       rply_rx = new Date().getTime();

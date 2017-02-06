@@ -36,7 +36,7 @@ while (true) {
       try {
         socket.receive(packet);
       } catch (IOException e) {
-        System.out.println("Server: IOException!");
+        System.out.println("IOException to receive a request on server!");
       }
       // Record the received time of a request
       req_rx = new Date().getTime();
@@ -52,7 +52,7 @@ while (true) {
       try {
         socket.send(packet);
       } catch(IOException e) {
-        System.out.println("Server: IOException!");
+        System.out.println("IOException to send a reply on server!");
       }
     }
   }
