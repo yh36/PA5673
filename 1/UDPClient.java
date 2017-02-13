@@ -7,13 +7,11 @@
 
 import java.io.*;
 import java.net.*;
-import java.util.Date;
 
 public class UDPClient implements Runnable {
 
   public static void main(String[] args) {
-    UDPClient client = new UDPClient();
-    client.run();
+    new Thread(new UDPClient()).start();
   }
 
   private int port;
@@ -31,7 +29,7 @@ public class UDPClient implements Runnable {
     } catch (UnknownHostException e) {
       System.out.println("Client: UnknownHostException!");
     }
-    count = 2;
+    count = 5;
   }
 
   public UDPClient(int pt, InetAddress addr, int cnt) {
@@ -52,7 +50,7 @@ public class UDPClient implements Runnable {
       DatagramPacket packet = new DatagramPacket(buf, buf.length,
         serverAddr, port);
       // Record the time of request sent
-      req_tx = new Date().getTime();
+      req_tx = System.currentTimeMillis();
       try {
         socket.send(packet);
       } catch (IOException e) {
@@ -69,7 +67,7 @@ public class UDPClient implements Runnable {
         System.out.println("IOException to receive a reply on client!");
       }
       // Record the received time
-      rply_rx = new Date().getTime();
+      rply_rx = System.currentTimeMillis();
 
       String reply = new String(packet.getData(), 0, packet.getLength());
       String[] tm = reply.split(":");
@@ -79,6 +77,11 @@ public class UDPClient implements Runnable {
       System.out.println("Run: " + i + "\nRequest sent : " + req_tx +
         "\nRequest received: " + req_rx + "\nReply sent: " + rply_tx +
         "\nReply received: " + rply_rx + "\n");
+      try {
+        Thread.sleep(1500);
+      } catch(InterruptedException e) {
+        System.out.println(e);
+      }
     }
   }
 }
