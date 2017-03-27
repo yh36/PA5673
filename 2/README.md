@@ -54,7 +54,7 @@ public static void main(String...argv) throws Throwable {
 		System.out.println("Size of qid_1: " + ftq.commitSize(qid_1));	
 		ftq.stopRaft();
 	}
-	```
+```	
   
   
 What works 
