@@ -1,78 +1,22 @@
-[![Build Status](https://travis-ci.org/mgodave/barge.png)](https://travis-ci.org/mgodave/barge)
 
-barge (ALPHA)
-=====
+This is programming assignment two from Distributed System course at University of Colorado Boulder
+Team members: Yi Hou and Yu-Chih Cho
 
-An implementation of the [Raft Consensus Protocol][1].
+An implementation of the [Raft Consensus Protocol].<br/>
+[1]: http://raftconsensus.github.io/ <br/>
+[2]: https://github.com/mgodave/barge
 
-[1]: http://raftconsensus.github.io/
-[2]: irc://chat.freenode.net/barge
+We implemented the Raft Protocol with Java from barge https://github.com/mgodave/barge, and created a distributed, fault-tolerant queue data structure, FTQueue that exports the following operations to the clients:
 
-Todo
-====
-Barge is still a work in progress, two major missing features are:
+`int qCreate (int label); //Creates a new queue of integers; associates this queue with label and returns a queue id (int)<br/>
+int qId (int label); //returns queue id of the queue associated with label<br/>
+void qPush (int queue_id, int item); // enters item in the queue<br/>
+int qPop (int queue_id); // removes an item from the queue and returns it <br/>
+int qTop (int queue_id); // returns the value of the first element in the queue <br/>
+int qSize (int queue_id); // returns the number of items in the queue`
 
-* Log Compaction (alpha2)
-* Dynamic Membership (alpha2)
+##Compile/Run
 
-Roadmap
-=======
-Barge is currently at 0.1.0-alpha1. I intend to release an alpha2 when the library is feature complete from the standpoint of the paper. Interest and involvement will determine how the library progresses past the alpha stage.
+##What works 
 
-Get It
-======
-
-```xml
-<dependency>
-    <groupId>org.robotninjas.barge</groupId>
-    <artifactId>barge-core</artifactId>
-    <version>0.1.0-alpha1</version>
-</dependency>
-```
-
-Use It
-======
-
-```java
-public class Test implements StateMachine {
-
-  @Override
-  public void applyOperation(@Nonnull ByteBuffer entry) {
-    System.out.println(entry.getLong());
-  }
-
-  public static void main(String... args) throws Exception {
-
-    ClusterConfig config = ClusterConfig.from(
-      Replica.fromString("localhost:10000"), // local
-      Replica.fromString("localhost:10001"), // remote
-      Replica.fromString("localhost:10002")  // remote
-    );
-
-    File logDir = new File(args[0]);
-    logDir.mkdir();
-
-    // configure the service
-    RaftService raft = 
-      RaftService.newBuilder(config)
-        .logDir(logDir)
-        .timeout(300)
-        .build(new Test());
-
-    // start this replica
-    raft.startAsync().awaitRunning();
-    
-    // let's commit some things
-    for (int i = 0; i < 10; i++) {
-      raft.commit(new byte[] {'O', '_', 'o'}).get();
-    }
-
-  }
-
-}
-
-
-```
-
-
-
+##What doesn't works 
