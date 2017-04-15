@@ -1,0 +1,2 @@
+To run the program,
+ mvn compile exec:java -Dexec.mainClass="TopologyMain" -Dexec.args="src/main/resources/words.txt"exec.cleanupDaemonThreads=false
